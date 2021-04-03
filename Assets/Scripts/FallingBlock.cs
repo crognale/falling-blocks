@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class FallingBlock : MonoBehaviour
 {
-    public float speed = 7;
+    float speed = 7;
 
     // Start is called before the first frame update
     void Start()
@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float inputX = Input.GetAxisRaw("Horizontal");
-        float velocity = inputX * speed;
-        transform.Translate(Vector2.right * velocity * Time.deltaTime);
+        transform.Translate(Vector3.down * speed * Time.deltaTime);
     }
 }
