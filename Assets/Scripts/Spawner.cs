@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject fallingBlockPrefab;
-    public float secondsBetweenSpawns = 1;
+    public Vector2 secondsBetweenSpawnsMinMax;
     float nextSpawnTime;
 
     public Vector2 spawnSizeMinMax;
@@ -24,6 +24,8 @@ public class Spawner : MonoBehaviour
     {
         if (Time.time > nextSpawnTime)
         {
+            float secondsBetweenSpawns = Mathf.Lerp(secondsBetweenSpawnsMinMax.y, secondsBetweenSpawnsMinMax.x, Difficulty.GetDifficultyPercent());
+            print(secondsBetweenSpawns);
             nextSpawnTime = Time.time + secondsBetweenSpawns;
 
             float spawnAngle = Random.Range(-spawnAngleMax, spawnAngleMax);
@@ -31,17 +33,9 @@ public class Spawner : MonoBehaviour
             Vector2 spawnPosition = new Vector2(Random.Range(-screenHalfSizeWorldUnits.x, screenHalfSizeWorldUnits.x),
                                                             screenHalfSizeWorldUnits.y + spawnSize);
             GameObject newBlock = (GameObject) Instantiate(fallingBlockPrefab, spawnPosition, Quaternion.Euler(Vector3.forward * spawnAngle));
-            newBlock.transform.localScale = Vector2.one * spawnSize;
+            newBlock.transform.localScale = Vector3.one * spawnSize;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D triggerCollider)
-    {
-        print("OnTriggerEnter2D()");
-        if (triggerCollider.tag == "Falling Block")
-        {
-            print("Destroying game object");
-            Destroy(gameObject);
-        }
-    }
+
 }
